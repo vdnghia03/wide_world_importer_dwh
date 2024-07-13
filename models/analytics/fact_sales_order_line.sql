@@ -24,10 +24,18 @@ SELECT
 FROM sales_order_line__rename_column
 )
 
+, sales_order_line__caculated_measure AS (
+  SELECT
+  *
+  , quantity * unit_price as gross_amount
+  FROM sales_order_line__cast_type
+)
+
+
 SELECT 
   sales_order_line_key
   , product_key
   , quantity
   , unit_price
-  , quantity * unit_price AS gross_amount
-FROM sales_order_line__cast_type
+  , gross_amount
+FROM sales_order_line__caculated_measure
