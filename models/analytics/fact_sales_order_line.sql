@@ -21,7 +21,6 @@ SELECT
   , CAST(product_key AS INTEGER) as product_key
   , CAST(quantity as INTEGER) AS quantity
   , CAST(unit_price AS NUMERIC) AS unit_price
-  , CAST(quantity AS INTEGER) * CAST(unit_price AS NUMERIC) as gross_amount
 FROM sales_order_line__rename_column
 )
 
@@ -30,5 +29,5 @@ SELECT
   , product_key
   , quantity
   , unit_price
-  , gross_amount
+  , quantity * unit_price AS gross_amount
 FROM sales_order_line__cast_type
