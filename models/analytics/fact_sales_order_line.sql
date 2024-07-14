@@ -43,5 +43,5 @@ SELECT
   , fact_line.unit_price
   , fact_line.gross_amount
 FROM sales_order_line__caculated_measure AS fact_line
-JOIN `learn-dbt-425507.learn_dbt_staging.stg_fact_sales_order` AS fact_header
+JOIN {{ (ref('stg_fact_sales_order')) }} AS fact_header
 ON fact_line.sales_order_key = fact_header.sales_order_key
