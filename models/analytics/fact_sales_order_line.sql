@@ -35,10 +35,13 @@ FROM sales_order_line__rename_column
 
 
 SELECT 
-  sales_order_line_key
-  , sales_order_key
-  , product_key
-  , quantity
-  , unit_price
-  , gross_amount
-FROM sales_order_line__caculated_measure
+  fact_line.sales_order_line_key
+  , fact_line.sales_order_key
+  , fact_line.product_key
+  , fact_header.customer_key
+  , fact_line.quantity
+  , fact_line.unit_price
+  , fact_line.gross_amount
+FROM sales_order_line__caculated_measure AS fact_line
+JOIN `learn-dbt-425507.learn_dbt_staging.stg_fact_sales_order` AS fact_header
+ON fact_line.sales_order_key = fact_header.sales_order_key
