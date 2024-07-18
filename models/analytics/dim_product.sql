@@ -1,6 +1,3 @@
-
-
-
 WITH dim_product__source AS (
   SELECT
     *
