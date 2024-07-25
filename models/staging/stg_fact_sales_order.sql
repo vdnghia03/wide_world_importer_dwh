@@ -8,6 +8,7 @@ FROM `vit-lam-data.wide_world_importers.sales__orders`
 SELECT
   order_id AS sales_order_key 
   , customer_id AS customer_key
+  , picked_by_person_id AS picked_by_person_key
 FROM fact_sales_order__source
 )
 
@@ -15,10 +16,12 @@ FROM fact_sales_order__source
 SELECT
   CAST(sales_order_key as INTEGER) as sales_order_key
   , CAST(customer_key AS INTEGER) as customer_key
+  , CAST(picked_by_person_key as INTEGER) as picked_by_person_key 
 FROM fact_sales_order__rename_column
 )
 
 SELECT 
   sales_order_key
   , customer_key
+  , picked_by_person_key
 FROM fact_sales_order__cast_type
