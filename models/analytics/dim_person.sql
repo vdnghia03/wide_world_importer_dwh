@@ -19,6 +19,19 @@ SELECT
 FROM dim_person__rename_column
 )
 
+, dim_person__undefine_column AS (
+SELECT
+  person_key
+  , full_name
+FROM dim_person__cast_type
+
+UNION ALL 
+SELECT
+  0 as person_key
+  , "Undefined" as full_name
+
+)
+
 
 SELECT
   person_key
