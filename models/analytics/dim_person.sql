@@ -40,4 +40,4 @@ SELECT
 SELECT
   person_key
   , full_name
-FROM dim_person__cast_type
+FROM dim_person__add_undefined_record
