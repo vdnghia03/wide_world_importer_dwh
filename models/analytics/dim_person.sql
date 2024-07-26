@@ -19,7 +19,7 @@ SELECT
 FROM dim_person__rename_column
 )
 
-, dim_person__undefine_column AS (
+, dim_person__add_undefined_record AS (
 SELECT
   person_key
   , full_name
