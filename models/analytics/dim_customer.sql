@@ -36,6 +36,16 @@ FROM dim_customer__rename_column
   FROM dim_customer__cast_type
 )
 
+, dim_customer__coalesce_column AS (
+SELECT
+  customer_key
+  , customer_name
+  , is_on_credit_hold
+  , COALESCE(customer_category_key, 0) as customer_category_key
+  , COALESCE(buying_group_key, 0) as buying_group_key
+FROM dim_customer__convert_boolean
+)
+
 , dim_customer__add_undefined_record AS (
 SELECT
   customer_key
@@ -43,7 +53,7 @@ SELECT
   , is_on_credit_hold
   , customer_category_key
   , buying_group_key
-FROM dim_customer__convert_boolean
+FROM dim_customer__coalesce_column
 
 UNION ALL
 SELECT
@@ -61,6 +71,8 @@ SELECT
   , -1 as customer_category_key
   , -1 as buying_group_key
 )
+
+
 
 SELECT 
   dim_customer.customer_key
