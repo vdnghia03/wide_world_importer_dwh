@@ -18,6 +18,14 @@ SELECT
 FROM supplier__rename_column
 )
 
+, dim_supplier__undefine_column AS (
+SELECT
+  supplier_key
+  , supplier_name
+FROM supplier__cast_type
+
+)
+
 SELECT
   supplier_key
   , supplier_name

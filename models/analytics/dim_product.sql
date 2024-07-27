@@ -36,6 +36,32 @@ FROM dim_product__rename_column
   FROM dim_product__cast_type
 )
 
+, dim_product__undefine_column AS (
+SELECT
+  product_key
+  , product_name
+  , brand_name
+  , is_chiller_stock
+  , supplier_key
+FROM dim_product__convert_boolean
+
+UNION ALL 
+SELECT
+  0 as product_key
+  , "Undefined" as product_name
+  , "Undefined" as brand_name
+  , "Undefined" as is_chiller_stock
+  , 0 as supplier_key
+
+UNION ALL
+SELECT
+  -1 as product_key
+  , "Invalid" as product_name
+  , "Invalid" as brand_name
+  , "Invalid" as is_chiller_stock
+  , -1 as supplier_key
+)
+
 SELECT 
   dim_product.product_key
   , dim_product.product_name
