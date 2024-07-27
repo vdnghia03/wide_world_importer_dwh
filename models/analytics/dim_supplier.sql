@@ -24,9 +24,19 @@ SELECT
   , supplier_name
 FROM supplier__cast_type
 
+UNION ALL
+SELECT
+  0 as supplier_key
+  , "Undefined" as supplier_name
+
+UNION ALL
+SELECT
+  -1 as supplier_key
+  , "Invalid" as supplier_name
+
 )
 
 SELECT
   supplier_key
   , supplier_name
-FROM supplier__cast_type
+FROM dim_supplier__undefine_column
