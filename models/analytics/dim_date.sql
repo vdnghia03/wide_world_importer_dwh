@@ -1,8 +1,8 @@
 With dim_date__source AS (
-    SELECT
-      *
-    FROM
-      UNNEST(GENERATE_DATE_ARRAY('2010-01-01', '2030-01-31', INTERVAL 1 DAY)) AS date
+  SELECT
+    *
+  FROM
+    UNNEST(GENERATE_DATE_ARRAY('2010-01-01', '2030-01-31', INTERVAL 1 DAY)) AS date
 )
 
 SELECT

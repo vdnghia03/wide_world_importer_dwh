@@ -5,13 +5,13 @@ WITH dim_product__source AS (
 )
 
 , dim_product__rename_column AS (
-SELECT 
-  stock_item_id AS product_key
-  , stock_item_name AS product_name
-  , brand AS brand_name
-  , is_chiller_stock AS is_chiller_stock_boolean
-  , supplier_id AS supplier_key
-FROM dim_product__source
+  SELECT 
+    stock_item_id AS product_key
+    , stock_item_name AS product_name
+    , brand AS brand_name
+    , is_chiller_stock AS is_chiller_stock_boolean
+    , supplier_id AS supplier_key
+  FROM dim_product__source
 )
 
 , dim_product__cast_type AS (

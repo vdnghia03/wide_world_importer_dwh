@@ -1,27 +1,27 @@
 WITH dim_customer__source AS (
-SELECT 
-  *
-FROM `vit-lam-data.wide_world_importers.sales__customers`
+  SELECT 
+    *
+  FROM `vit-lam-data.wide_world_importers.sales__customers`
 )
 
 , dim_customer__rename_column AS (
-SELECT
-  customer_id AS customer_key
-  , customer_category_id AS customer_category_key
-  , buying_group_id AS buying_group_key
-  , customer_name 
-  , is_on_credit_hold AS is_on_credit_hold_boolean
-FROM dim_customer__source
+  SELECT
+    customer_id AS customer_key
+    , customer_category_id AS customer_category_key
+    , buying_group_id AS buying_group_key
+    , customer_name 
+    , is_on_credit_hold AS is_on_credit_hold_boolean
+  FROM dim_customer__source
 )
 
 , dim_customer__cast_type AS (
-SELECT
-  CAST(customer_key as INTEGER) as customer_key
-  , CAST(customer_category_key as INTEGER) as customer_category_key
-  , CAST(buying_group_key as INTEGER) as buying_group_key
-  , CAST(customer_name AS STRING) as customer_name
-  , CAST(is_on_credit_hold_boolean AS BOOLEAN) as is_on_credit_hold_boolean
-FROM dim_customer__rename_column
+  SELECT
+    CAST(customer_key as INTEGER) as customer_key
+    , CAST(customer_category_key as INTEGER) as customer_category_key
+    , CAST(buying_group_key as INTEGER) as buying_group_key
+    , CAST(customer_name AS STRING) as customer_name
+    , CAST(is_on_credit_hold_boolean AS BOOLEAN) as is_on_credit_hold_boolean
+  FROM dim_customer__rename_column
 )
 
 , dim_customer__convert_boolean AS (
@@ -37,39 +37,39 @@ FROM dim_customer__rename_column
 )
 
 , dim_customer__coalesce_column AS (
-SELECT
-  customer_key
-  , customer_name
-  , is_on_credit_hold
-  , COALESCE(customer_category_key, 0) as customer_category_key
-  , COALESCE(buying_group_key, 0) as buying_group_key
-FROM dim_customer__convert_boolean
+  SELECT
+    customer_key
+    , customer_name
+    , is_on_credit_hold
+    , COALESCE(customer_category_key, 0) as customer_category_key
+    , COALESCE(buying_group_key, 0) as buying_group_key
+  FROM dim_customer__convert_boolean
 )
 
 , dim_customer__add_undefined_record AS (
-SELECT
-  customer_key
-  , customer_name
-  , is_on_credit_hold
-  , customer_category_key
-  , buying_group_key
-FROM dim_customer__coalesce_column
+  SELECT
+    customer_key
+    , customer_name
+    , is_on_credit_hold
+    , customer_category_key
+    , buying_group_key
+  FROM dim_customer__coalesce_column
 
-UNION ALL
-SELECT
-  0 as customer_key
-  , "Undefined" as customer_name
-  , "Undefined" as is_on_credit_hold
-  , 0 as customer_category_key
-  , 0 as buying_group_key
+  UNION ALL
+  SELECT
+    0 as customer_key
+    , "Undefined" as customer_name
+    , "Undefined" as is_on_credit_hold
+    , 0 as customer_category_key
+    , 0 as buying_group_key
 
-UNION ALL
-SELECT
-  -1 as customer_key
-  , "Invalid" as customer_name
-  , "Invalid" as is_on_credit_hold
-  , -1 as customer_category_key
-  , -1 as buying_group_key
+  UNION ALL
+  SELECT
+    -1 as customer_key
+    , "Invalid" as customer_name
+    , "Invalid" as is_on_credit_hold
+    , -1 as customer_category_key
+    , -1 as buying_group_key
 )
 
 
