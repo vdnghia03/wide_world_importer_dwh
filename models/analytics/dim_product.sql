@@ -15,13 +15,13 @@ WITH dim_product__source AS (
 )
 
 , dim_product__cast_type AS (
-SELECT 
-  CAST(product_key AS INTEGER) AS product_key
-  , CAST(product_name AS STRING) AS product_name
-  , CAST(brand_name AS STRING) AS brand_name
-  , CAST(is_chiller_stock_boolean AS BOOLEAN) AS is_chiller_stock_boolean
-  , CAST(supplier_key AS INTEGER) AS supplier_key
-FROM dim_product__rename_column
+  SELECT 
+    CAST(product_key AS INTEGER) AS product_key
+    , CAST(product_name AS STRING) AS product_name
+    , CAST(brand_name AS STRING) AS brand_name
+    , CAST(is_chiller_stock_boolean AS BOOLEAN) AS is_chiller_stock_boolean
+    , CAST(supplier_key AS INTEGER) AS supplier_key
+  FROM dim_product__rename_column
 )
 
 , dim_product__convert_boolean AS (
@@ -37,29 +37,29 @@ FROM dim_product__rename_column
 )
 
 , dim_product__undefine_column AS (
-SELECT
-  product_key
-  , product_name
-  , brand_name
-  , is_chiller_stock
-  , supplier_key
-FROM dim_product__convert_boolean
+  SELECT
+    product_key
+    , product_name
+    , brand_name
+    , is_chiller_stock
+    , supplier_key
+  FROM dim_product__convert_boolean
 
-UNION ALL 
-SELECT
-  0 as product_key
-  , "Undefined" as product_name
-  , "Undefined" as brand_name
-  , "Undefined" as is_chiller_stock
-  , 0 as supplier_key
+  UNION ALL 
+  SELECT
+    0 as product_key
+    , "Undefined" as product_name
+    , "Undefined" as brand_name
+    , "Undefined" as is_chiller_stock
+    , 0 as supplier_key
 
-UNION ALL
-SELECT
-  -1 as product_key
-  , "Invalid" as product_name
-  , "Invalid" as brand_name
-  , "Invalid" as is_chiller_stock
-  , -1 as supplier_key
+  UNION ALL
+  SELECT
+    -1 as product_key
+    , "Invalid" as product_name
+    , "Invalid" as brand_name
+    , "Invalid" as is_chiller_stock
+    , -1 as supplier_key
 )
 
 SELECT 
