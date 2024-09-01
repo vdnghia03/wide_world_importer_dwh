@@ -1,19 +1,19 @@
 
 WITH sales_order_line__source AS (
-SELECT
-  *
-FROM `vit-lam-data.wide_world_importers.sales__order_lines`
+  SELECT
+    *
+  FROM `vit-lam-data.wide_world_importers.sales__order_lines`
 )
 
 , sales_order_line__rename_column AS (
-SELECT
-  order_line_id AS sales_order_line_key
-  , order_id AS sales_order_key
-  , stock_item_id AS product_key
-  , quantity  AS quantity
-  , unit_price AS unit_price
-  , quantity * unit_price as gross_amount
-FROM sales_order_line__source
+  SELECT
+    order_line_id AS sales_order_line_key
+    , order_id AS sales_order_key
+    , stock_item_id AS product_key
+    , quantity  AS quantity
+    , unit_price AS unit_price
+    , quantity * unit_price as gross_amount
+  FROM sales_order_line__source
 )
 
 , sales_order_line__cast_type AS (
