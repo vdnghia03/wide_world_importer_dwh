@@ -18,6 +18,7 @@ WITH dim_product__source AS (
     , quantity_per_outer AS quantity_per_outer
     , lead_time_days AS lead_time_days
     , supplier_id AS supplier_key
+    , color_id AS color_key
   FROM dim_product__source
 )
 
@@ -35,6 +36,7 @@ WITH dim_product__source AS (
     , CAST(quantity_per_outer AS INTEGER) AS quantity_per_outer
     , CAST(lead_time_days AS INTEGER) AS lead_time_days
     , CAST(supplier_key AS INTEGER) AS supplier_key
+    , CAST(color_key AS INTEGER) AS color_key
   FROM dim_product__rename_column
 )
 
@@ -51,7 +53,7 @@ WITH dim_product__source AS (
   FROM dim_product__cast_type
 )
 
-, dim_product_coalesce_record AS (
+, dim_product__coalesce_record AS (
   SELECT
     product_key
     , COALESCE(product_name, "Undefined") AS product_name
@@ -65,6 +67,7 @@ WITH dim_product__source AS (
     , quantity_per_outer
     , lead_time_days
     , COALESCE(supplier_key, 0) AS supplier_key
+    , COALESCE(color_key, 0) AS color_key
   FROM dim_product__convert_boolean
 )
 
@@ -82,6 +85,7 @@ WITH dim_product__source AS (
     , quantity_per_outer
     , lead_time_days
     , supplier_key
+    , color_key
   FROM dim_product__coalesce_record
 
   UNION ALL 
@@ -98,6 +102,7 @@ WITH dim_product__source AS (
     , NULL as quantity_per_outer
     , NULL as lead_time_days
     , 0 as supplier_key
+    , 0 as color_key
 
   UNION ALL
   SELECT
@@ -113,6 +118,7 @@ WITH dim_product__source AS (
     , NULL as quantity_per_outer
     , NULL as lead_time_days
     , -1 as supplier_key
+    , -1 as color_key
 )
 
 SELECT 
@@ -129,6 +135,10 @@ SELECT
   , dim_product.lead_time_days
   , dim_product.supplier_key
   , COALESCE(dim_supplier.supplier_name, "Undefined") AS supplier_name
-FROM dim_product__convert_boolean AS dim_product
+  , dim_product.color_key
+  , COALESCE(dim_color.color_name, "Undefined") AS color_name
+FROM dim_product__undefine_column AS dim_product
 LEFT JOIN {{ ref('dim_supplier') }} AS dim_supplier
 ON dim_product.supplier_key = dim_supplier.supplier_key
+LEFT JOIN {{ ref('stg_dim_color') }} AS dim_color
+ON dim_product.color_key = dim_color.color_key
