@@ -33,7 +33,7 @@ WITH dim_person__source AS (
   FROM dim_person__rename_column
 )
 
-, dim_person_convert_boolean AS (
+, dim_person__convert_boolean AS (
   SELECT
     *
     , CASE
@@ -74,7 +74,7 @@ WITH dim_person__source AS (
     , is_system_user
     , is_employee
     , is_salesperson
-  FROM dim_person__cast_type
+  FROM dim_person__convert_boolean
 
   UNION ALL 
   SELECT
