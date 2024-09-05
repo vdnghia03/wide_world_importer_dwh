@@ -45,8 +45,10 @@ WITH stg_dim_city__source AS (
 )
 
 SELECT
-  city_key
-  ,city_name
+  stg_dim_city.city_key
+  , stg_dim_city.city_name
+  , stg_dim_city.state_province_key
+  , COALESCE(stg_dim_state_province.state_province_name, 'Undefined') as state_province_name
 FROM stg_dim_city__undefined_column AS stg_dim_city
 LEFT JOIN {{ ref('stg_dim_state_province') }} AS stg_dim_state_province
 ON stg_dim_city.state_province_key = stg_dim_state_province.state_province_key
