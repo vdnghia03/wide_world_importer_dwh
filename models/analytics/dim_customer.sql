@@ -28,8 +28,8 @@ WITH dim_customer__source AS (
     , CAST(customer_name as STRING) as customer_name
     , CAST(is_on_credit_hold_boolean as BOOLEAN) as is_on_credit_hold_boolean
     , CAST(is_statement_sent_boolean as BOOLEAN) as is_statement_sent_boolean
-    , CAST(credit_limit as FLOAT) as credit_limit
-    , CAST(standard_discount_percentage as FLOAT) as standard_discount_percentage
+    , CAST(credit_limit as FLOAT64) as credit_limit
+    , CAST(standard_discount_percentage as FLOAT64) as standard_discount_percentage
     , CAST(payment_days as INTEGER) as payment_days
     , CAST(account_opened_date as DATE) as account_opened_date
     , CAST(customer_category_key as INTEGER) as customer_category_key
@@ -156,7 +156,7 @@ LEFT JOIN {{ ref('stg_dim_sales_customer_category') }} AS dim_customer_category
 ON dim_customer_category.customer_category_key = dim_customer.customer_category_key
 LEFT JOIN {{ ref('stg_dim_sales_buying_group') }} AS dim_buying_group
 ON dim_buying_group.buying_group_key = dim_customer.buying_group_key
-LEFT JOIN {{ ref('stg_dim_sales_delivery_method') }} AS dim_delivery_method
+LEFT JOIN {{ ref('stg_dim_delivery_method') }} AS dim_delivery_method
 ON dim_delivery_method.delivery_method_key = dim_customer.delivery_method_key
 LEFT JOIN {{ref('stg_dim_city')}} AS dim_delivery_city
 ON dim_delivery_city.city_key = dim_customer.delivery_city_key

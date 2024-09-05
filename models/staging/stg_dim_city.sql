@@ -38,10 +38,12 @@ WITH stg_dim_city__source AS (
   SELECT
     0 as city_key
     , "Undefined" as city_name
+    , 0 as state_province_key
   UNION ALL
   SELECT
     -1 as city_key
     , "Invalid" as city_name
+    , -1 as state_province_key
 )
 
 SELECT
