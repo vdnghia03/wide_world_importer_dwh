@@ -19,6 +19,7 @@ WITH dim_product__source AS (
     , lead_time_days AS lead_time_days
     , supplier_id AS supplier_key
     , color_id AS color_key
+    , unit_package_id AS unit_package_types_key
   FROM dim_product__source
 )
 
@@ -37,6 +38,7 @@ WITH dim_product__source AS (
     , CAST(lead_time_days AS INTEGER) AS lead_time_days
     , CAST(supplier_key AS INTEGER) AS supplier_key
     , CAST(color_key AS INTEGER) AS color_key
+    , CAST(unit_package_types_key AS INTEGER) AS unit_package_types_key
   FROM dim_product__rename_column
 )
 
@@ -68,6 +70,7 @@ WITH dim_product__source AS (
     , lead_time_days
     , COALESCE(supplier_key, 0) AS supplier_key
     , COALESCE(color_key, 0) AS color_key
+    , COALESCE(unit_package_types_key, 0) AS unit_package_types_key
   FROM dim_product__convert_boolean
 )
 
@@ -86,6 +89,7 @@ WITH dim_product__source AS (
     , lead_time_days
     , supplier_key
     , color_key
+    , unit_package_types_key
   FROM dim_product__coalesce_record
 
   UNION ALL 
@@ -103,6 +107,7 @@ WITH dim_product__source AS (
     , NULL as lead_time_days
     , 0 as supplier_key
     , 0 as color_key
+    , 0 as unit_package_types_key
 
   UNION ALL
   SELECT
@@ -119,6 +124,7 @@ WITH dim_product__source AS (
     , NULL as lead_time_days
     , -1 as supplier_key
     , -1 as color_key
+    , -1 as unit_package_types_key
 )
 
 SELECT 
@@ -137,8 +143,12 @@ SELECT
   , COALESCE(dim_supplier.supplier_name, "Undefined") AS supplier_name
   , dim_product.color_key
   , COALESCE(dim_color.color_name, "Undefined") AS color_name
+  , dim_product.unit_package_types_key
+  , COALESCE(dim_unit_package_types.package_types_name, "Undefined") AS unit_package_types_name
 FROM dim_product__undefine_column AS dim_product
 LEFT JOIN {{ ref('dim_supplier') }} AS dim_supplier
 ON dim_product.supplier_key = dim_supplier.supplier_key
 LEFT JOIN {{ ref('stg_dim_color') }} AS dim_color
 ON dim_product.color_key = dim_color.color_key
+LEFT JOIN {{ ref('stg_dim_package_types') }} AS dim_unit_package_types
+ON dim_product.unit_package_types_key = dim_unit_package_types.package_types_key
