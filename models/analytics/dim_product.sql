@@ -158,7 +158,7 @@ LEFT JOIN {{ ref('dim_supplier') }} AS dim_supplier
 ON dim_product.supplier_key = dim_supplier.supplier_key
 LEFT JOIN {{ ref('stg_dim_color') }} AS dim_color
 ON dim_product.color_key = dim_color.color_key
-LEFT JOIN {{ ref('stg_dim_package_types') }} AS dim_unit_package_types
+LEFT JOIN {{ ref('dim_package_types') }} AS dim_unit_package_types
 ON dim_product.unit_package_types_key = dim_unit_package_types.package_types_key
-LEFT JOIN {{ ref('stg_dim_package_types') }} AS dim_outer_package_types
+LEFT JOIN {{ ref('dim_package_types') }} AS dim_outer_package_types
 ON dim_product.outer_package_types_key = dim_outer_package_types.package_types_key
