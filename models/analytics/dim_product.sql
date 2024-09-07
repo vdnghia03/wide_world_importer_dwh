@@ -153,6 +153,16 @@ SELECT
   , COALESCE(dim_outer_package_types.package_types_name, "Undefined") AS outer_package_types_name
   , dim_product.supplier_key
   , COALESCE(dim_supplier.supplier_name, "Undefined") AS supplier_name
+  , dim_supplier.delivery_method_key
+  , dim_supplier.delivery_method_name
+  , dim_supplier.delivery_city_key
+  , dim_supplier.delivery_city_name
+  , dim_supplier.delivery_state_province_key
+  , dim_supplier.delivery_state_province_name
+  , dim_supplier.postal_city_key
+  , dim_supplier.postal_city_name
+  , dim_supplier.postal_state_province_key
+  , dim_supplier.postal_state_province_name
 FROM dim_product__undefine_column AS dim_product
 LEFT JOIN {{ ref('stg_dim_color') }} AS dim_color
 ON dim_product.color_key = dim_color.color_key
