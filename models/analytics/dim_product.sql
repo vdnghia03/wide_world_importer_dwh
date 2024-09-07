@@ -17,10 +17,10 @@ WITH dim_product__source AS (
     , tax_rate AS tax_rate
     , quantity_per_outer AS quantity_per_outer
     , lead_time_days AS lead_time_days
-    , supplier_id AS supplier_key
     , color_id AS color_key
     , unit_package_id AS unit_package_types_key
     , outer_package_id AS outer_package_types_key
+    , supplier_id AS supplier_key
   FROM dim_product__source
 )
 
@@ -37,10 +37,10 @@ WITH dim_product__source AS (
     , CAST(tax_rate AS FLOAT64) AS tax_rate
     , CAST(quantity_per_outer AS INTEGER) AS quantity_per_outer
     , CAST(lead_time_days AS INTEGER) AS lead_time_days
-    , CAST(supplier_key AS INTEGER) AS supplier_key
     , CAST(color_key AS INTEGER) AS color_key
     , CAST(unit_package_types_key AS INTEGER) AS unit_package_types_key
     , CAST(outer_package_types_key AS INTEGER) AS outer_package_types_key
+    , CAST(supplier_key AS INTEGER) AS supplier_key
   FROM dim_product__rename_column
 )
 
@@ -70,10 +70,10 @@ WITH dim_product__source AS (
     , tax_rate
     , quantity_per_outer
     , lead_time_days
-    , COALESCE(supplier_key, 0) AS supplier_key
     , COALESCE(color_key, 0) AS color_key
     , COALESCE(unit_package_types_key, 0) AS unit_package_types_key
     , COALESCE(outer_package_types_key, 0) AS outer_package_types_key
+    , COALESCE(supplier_key, 0) AS supplier_key
   FROM dim_product__convert_boolean
 )
 
@@ -90,10 +90,10 @@ WITH dim_product__source AS (
     , tax_rate
     , quantity_per_outer
     , lead_time_days
-    , supplier_key
     , color_key
     , unit_package_types_key
     , outer_package_types_key
+    , supplier_key
   FROM dim_product__coalesce_record
 
   UNION ALL 
@@ -109,10 +109,10 @@ WITH dim_product__source AS (
     , NULL as tax_rate
     , NULL as quantity_per_outer
     , NULL as lead_time_days
-    , 0 as supplier_key
     , 0 as color_key
     , 0 as unit_package_types_key
     , 0 as outer_package_types_key
+    , 0 as supplier_key
 
   UNION ALL
   SELECT
@@ -127,10 +127,10 @@ WITH dim_product__source AS (
     , NULL as tax_rate
     , NULL as quantity_per_outer
     , NULL as lead_time_days
-    , -1 as supplier_key
     , -1 as color_key
     , -1 as unit_package_types_key
     , -1 as outer_package_types_key
+    , -1 as supplier_key
 )
 
 SELECT 
@@ -145,20 +145,20 @@ SELECT
   , dim_product.tax_rate
   , dim_product.quantity_per_outer
   , dim_product.lead_time_days
-  , dim_product.supplier_key
-  , COALESCE(dim_supplier.supplier_name, "Undefined") AS supplier_name
   , dim_product.color_key
   , COALESCE(dim_color.color_name, "Undefined") AS color_name
   , dim_product.unit_package_types_key
   , COALESCE(dim_unit_package_types.package_types_name, "Undefined") AS unit_package_types_name
   , dim_product.outer_package_types_key
   , COALESCE(dim_outer_package_types.package_types_name, "Undefined") AS outer_package_types_name
+  , dim_product.supplier_key
+  , COALESCE(dim_supplier.supplier_name, "Undefined") AS supplier_name
 FROM dim_product__undefine_column AS dim_product
-LEFT JOIN {{ ref('dim_supplier') }} AS dim_supplier
-ON dim_product.supplier_key = dim_supplier.supplier_key
 LEFT JOIN {{ ref('stg_dim_color') }} AS dim_color
 ON dim_product.color_key = dim_color.color_key
 LEFT JOIN {{ ref('dim_package_types') }} AS dim_unit_package_types
 ON dim_product.unit_package_types_key = dim_unit_package_types.package_types_key
 LEFT JOIN {{ ref('dim_package_types') }} AS dim_outer_package_types
 ON dim_product.outer_package_types_key = dim_outer_package_types.package_types_key
+LEFT JOIN {{ ref('dim_supplier') }} AS dim_supplier
+ON dim_product.supplier_key = dim_supplier.supplier_key
