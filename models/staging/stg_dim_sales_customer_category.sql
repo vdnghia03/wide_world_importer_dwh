@@ -35,5 +35,5 @@ SELECT
 
 SELECT
   customer_category_key
-  ,customer_category_name
+  , COALESCE(customer_category_name, 'Undefined') as customer_category_name
 FROM stg_dim_sales_customer_category__add_undefined_record

@@ -35,5 +35,5 @@ WITH stg_dim_state_province__source AS (
 
 SELECT
   state_province_key
-  ,state_province_name
+  , COALESCE(state_province_name, 'Undefined') as state_province_name
 FROM stg_dim_state_province__undefined_column

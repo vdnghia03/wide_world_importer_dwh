@@ -35,5 +35,5 @@ WITH stg_dim_supplier_category__source AS (
 
 SELECT
   supplier_category_key
-  ,supplier_category_name
+  , COALESCE(supplier_category_name, 'Undefined') as supplier_category_name
 FROM stg_dim_supplier_category__undefined_column

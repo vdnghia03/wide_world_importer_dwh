@@ -47,10 +47,10 @@ WITH stg_dim_city__source AS (
 )
 
 SELECT
-  stg_dim_city.city_key
-  , COALESCE(stg_dim_city.city_name, 'Undefined') as city_name
-  , stg_dim_city.state_province_key
-  , COALESCE(stg_dim_state_province.state_province_name, 'Undefined') as state_province_name
+  dim_city.city_key
+  , COALESCE(dim_city.city_name, 'Undefined') as city_name
+  , dim_city.state_province_key
+  , COALESCE(dim_state_province.state_province_name, 'Undefined') as state_province_name
 FROM stg_dim_city__undefined_column AS dim_city
 LEFT JOIN {{ ref('stg_dim_state_province') }} AS dim_state_province
 ON dim_city.state_province_key = dim_state_province.state_province_key

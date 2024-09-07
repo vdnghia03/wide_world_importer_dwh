@@ -35,5 +35,5 @@ WITH stg_dim_color__source AS (
 
 SELECT
   color_key
-  ,color_name
+  , COALESCE(color_name, 'Undefined') as color_name
 FROM stg_dim_color__undefined_column

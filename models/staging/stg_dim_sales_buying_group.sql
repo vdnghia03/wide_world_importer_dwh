@@ -35,5 +35,5 @@ SELECT
 
 SELECT
   buying_group_key
-  ,buying_group_name
+  , COALESCE(buying_group_name, 'Undefined') as buying_group_name
 FROM stg_dim_sales_buying_group__add_undefined_record
