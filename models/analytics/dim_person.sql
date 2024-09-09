@@ -63,6 +63,20 @@ WITH dim_person__source AS (
   FROM dim_person__cast_type
 )
 
+, dim_person__coalesce_column AS (
+  SELECT
+    person_key
+    , COALESCE(full_name, 'Undefined') AS full_name
+    , COALESCE(preferred_name, 'Undefined') AS preferred_name
+    , COALESCE(search_name, 'Undefined') AS search_name
+    , COALESCE(is_permitted_to_logon, 'Undefined') AS is_permitted_to_logon
+    , COALESCE(logon_name, 'Undefined') AS logon_name
+    , COALESCE(is_system_user, 'Undefined') AS is_system_user
+    , COALESCE(is_employee, 'Undefined') AS is_employee
+    , COALESCE(is_salesperson, 'Undefined') AS is_salesperson
+  FROM dim_person__convert_boolean
+)
+
 , dim_person__add_undefined_record AS (
   SELECT
     person_key
@@ -74,7 +88,7 @@ WITH dim_person__source AS (
     , is_system_user
     , is_employee
     , is_salesperson
-  FROM dim_person__convert_boolean
+  FROM dim_person__coalesce_column
 
   UNION ALL 
   SELECT

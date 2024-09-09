@@ -35,5 +35,5 @@ WITH dim_package_types__source AS (
 
 SELECT
   package_types_key
-  , package_types_name
+  , COALESCE(package_types_name, 'Undefined') as package_types_name
 FROM dim_package_types__undefined_column
