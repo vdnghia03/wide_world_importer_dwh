@@ -35,5 +35,5 @@ WITH stg_dim_delivery_method__source AS (
 
 SELECT
   delivery_method_key
-  , COALESCE(delivery_method_name, 'Undefined') as delivery_city_name
+  , COALESCE(delivery_method_name, 'Undefined') as delivery_method_name
 FROM stg_dim_delivery_method__undefined_column
