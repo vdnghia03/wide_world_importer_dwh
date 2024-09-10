@@ -21,6 +21,7 @@ WITH dim_customer__source AS (
     , postal_city_id AS postal_city_key
     , primary_contact_person_id AS primary_contact_person_key
     , alternate_contact_person_id AS alternate_contact_person_key
+    , bill_to_customer_id AS bill_to_customer_key
   FROM dim_customer__source
 )
 
@@ -41,6 +42,7 @@ WITH dim_customer__source AS (
     , CAST(postal_city_key as INTEGER) as postal_city_key
     , CAST(primary_contact_person_key as INTEGER) as primary_contact_person_key
     , CAST(alternate_contact_person_key as INTEGER) as alternate_contact_person_key
+    , CAST(bill_to_customer_key as INTEGER) as bill_to_customer_key
   FROM dim_customer__rename_column
 )
 
@@ -79,6 +81,7 @@ WITH dim_customer__source AS (
     , COALESCE(postal_city_key, 0) as postal_city_key
     , COALESCE(primary_contact_person_key, 0) as primary_contact_person_key
     , COALESCE(alternate_contact_person_key, 0) as alternate_contact_person_key
+    , COALESCE(bill_to_customer_key, 0) as bill_to_customer_key
   FROM dim_customer__convert_boolean
 )
 
@@ -99,6 +102,7 @@ WITH dim_customer__source AS (
     , postal_city_key
     , primary_contact_person_key
     , alternate_contact_person_key
+    , bill_to_customer_key
   FROM dim_customer__coalesce_column
 
   UNION ALL
@@ -118,6 +122,7 @@ WITH dim_customer__source AS (
     , 0 as postal_city_key
     , 0 as primary_contact_person_key
     , 0 as alternate_contact_person_key
+    , 0 as bill_to_customer_key
 
   UNION ALL
   SELECT
@@ -136,9 +141,8 @@ WITH dim_customer__source AS (
     , -1 as postal_city_key
     , -1 as primary_contact_person_key
     , -1 as alternate_contact_person_key
+    , -1 as bill_to_customer_key
 )
-
-
 
 SELECT 
   dim_customer.customer_key
@@ -167,6 +171,8 @@ SELECT
   , COALESCE(dim_primary_contact_person.full_name, "Undefined") AS primary_contact_full_name
   , dim_customer.alternate_contact_person_key
   , COALESCE(dim_alternate_contact_person.full_name, "Undefined") AS alternate_contact_full_name
+  , dim_customer.bill_to_customer_key
+  , COALESCE(dim_bill_to_customer.customer_name, "Undefined") AS bill_to_customer_name
 FROM dim_customer__add_undefined_record AS dim_customer
 LEFT JOIN {{ ref('stg_dim_sales_customer_category') }} AS dim_customer_category
 ON dim_customer_category.customer_category_key = dim_customer.customer_category_key
@@ -182,3 +188,5 @@ LEFT JOIN {{ ref('dim_person') }} AS dim_primary_contact_person
 ON dim_primary_contact_person.person_key = dim_customer.primary_contact_person_key
 LEFT JOIN {{ ref('dim_person') }} AS dim_alternate_contact_person
 ON dim_alternate_contact_person.person_key = dim_customer.alternate_contact_person_key
+LEFT JOIN {{ ref('stg_dim_bill_to_customer') }} AS dim_bill_to_customer
+ON dim_bill_to_customer.customer_key = dim_customer.bill_to_customer_key
