@@ -190,3 +190,4 @@ LEFT JOIN {{ ref('dim_person') }} AS dim_alternate_contact_person
 ON dim_alternate_contact_person.person_key = dim_customer.alternate_contact_person_key
 LEFT JOIN {{ ref('stg_dim_bill_to_customer') }} AS dim_bill_to_customer
 ON dim_bill_to_customer.customer_key = dim_customer.bill_to_customer_key
+
