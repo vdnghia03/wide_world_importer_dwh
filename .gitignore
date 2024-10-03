@@ -14,6 +14,7 @@ conf/*
 # Python venv
 .dbtenv/
 
+.dbt_env/
 
 
 # Byte-compiled / optimized / DLL files
