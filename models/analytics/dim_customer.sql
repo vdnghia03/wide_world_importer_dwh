@@ -175,19 +175,19 @@ SELECT
   , COALESCE(dim_bill_to_customer.customer_name, "Undefined") AS bill_to_customer_name
 FROM dim_customer__add_undefined_record AS dim_customer
 LEFT JOIN {{ ref('stg_dim_sales_customer_category') }} AS dim_customer_category
-ON dim_customer_category.customer_category_key = dim_customer.customer_category_key
+  ON dim_customer_category.customer_category_key = dim_customer.customer_category_key
 LEFT JOIN {{ ref('stg_dim_sales_buying_group') }} AS dim_buying_group
-ON dim_buying_group.buying_group_key = dim_customer.buying_group_key
+  ON dim_buying_group.buying_group_key = dim_customer.buying_group_key
 LEFT JOIN {{ ref('stg_dim_delivery_method') }} AS dim_delivery_method
-ON dim_delivery_method.delivery_method_key = dim_customer.delivery_method_key
+  ON dim_delivery_method.delivery_method_key = dim_customer.delivery_method_key
 LEFT JOIN {{ref('stg_dim_city')}} AS dim_delivery_city
-ON dim_delivery_city.city_key = dim_customer.delivery_city_key
+  ON dim_delivery_city.city_key = dim_customer.delivery_city_key
 LEFT JOIN {{ref('stg_dim_city')}} AS dim_postal_city
-ON dim_postal_city.city_key = dim_customer.postal_city_key
+  ON dim_postal_city.city_key = dim_customer.postal_city_key
 LEFT JOIN {{ ref('dim_person') }} AS dim_primary_contact_person
-ON dim_primary_contact_person.person_key = dim_customer.primary_contact_person_key
+  ON dim_primary_contact_person.person_key = dim_customer.primary_contact_person_key
 LEFT JOIN {{ ref('dim_person') }} AS dim_alternate_contact_person
-ON dim_alternate_contact_person.person_key = dim_customer.alternate_contact_person_key
+  ON dim_alternate_contact_person.person_key = dim_customer.alternate_contact_person_key
 LEFT JOIN {{ ref('stg_dim_bill_to_customer') }} AS dim_bill_to_customer
-ON dim_bill_to_customer.customer_key = dim_customer.bill_to_customer_key
+  ON dim_bill_to_customer.customer_key = dim_customer.bill_to_customer_key
 
