@@ -10,10 +10,10 @@ with sales_order_line_indicator as (
 )
 
 select
-    concat(dim_indicator.is_under_supply_backorder
+    FARM_FINGERPRINT(concat(dim_indicator.is_under_supply_backorder
     , ','
     , dim_package_types.package_types_key
-    ) as composition_key
+    )) as composition_key
     , dim_indicator.is_under_supply_backorder_boolean
     , dim_indicator.is_under_supply_backorder
     , dim_package_types.package_types_key
