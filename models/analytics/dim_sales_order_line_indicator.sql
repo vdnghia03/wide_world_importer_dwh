@@ -1,22 +1,22 @@
 
-with sales_order_line_indicator as (
+with dim_is_undersupply_backordered as (
     select
-        True as is_under_supply_backorder_boolean
-        , 'Under Supply Backorder' as is_under_supply_backorder
+        True as is_undersupply_backordered_boolean
+        , 'Under Supply Backorder' as is_undersupply_backordered
         union all
         select
-        false as is_under_supply_backorder_boolean
-        , 'Not Under Supply Backorder' as is_under_supply_backorder
+        false as is_undersupply_backordered_boolean
+        , 'Not Under Supply Backorder' as is_undersupply_backordered
 )
 
 select
-    FARM_FINGERPRINT(concat(dim_indicator.is_under_supply_backorder
+    FARM_FINGERPRINT(concat(dim_is_undersupply_backordered.is_undersupply_backordered
     , ','
     , dim_package_types.package_types_key
     )) as composition_key
-    , dim_indicator.is_under_supply_backorder_boolean
-    , dim_indicator.is_under_supply_backorder
+    , dim_is_undersupply_backordered.is_undersupply_backordered_boolean
+    , dim_is_undersupply_backordered.is_undersupply_backordered
     , dim_package_types.package_types_key
     , dim_package_types.package_types_name
-from sales_order_line_indicator as dim_indicator
+from dim_is_undersupply_backordered
 cross join {{ref("dim_package_types")}} as dim_package_types
