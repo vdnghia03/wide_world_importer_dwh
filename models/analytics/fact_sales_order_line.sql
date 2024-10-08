@@ -129,10 +129,8 @@ FROM sales_order_line__rename_column
 SELECT 
   fact_line.sales_order_line_key
   , fact_line.description_line
-  , COALESCE(fact_header.is_under_supply_backorder, 'Undefined') as is_under_supply_backorder
   , fact_line.sales_order_key
   , fact_line.product_key
-  , fact_line.package_type_key
   , FARM_FINGERPRINT(concat(
       COALESCE(fact_header.is_under_supply_backorder, 'Undefined')
       , ','
