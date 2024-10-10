@@ -6,6 +6,7 @@ models:
     columns:
       - name: product_key
         tests:
+          - unique
           - not_null
 
       - name: product_name
