@@ -124,7 +124,7 @@ SELECT
   , COALESCE(dim_postal_city.city_name, "Undefined") AS postal_city_name
   , dim_postal_city.state_province_key AS postal_state_province_key
   , dim_postal_city.state_province_name AS postal_state_province_name
-  , 
+
 FROM dim_supplier__undefine_column AS dim_supplier
 LEFT JOIN {{ ref('stg_dim_supplier_category') }} AS dim_supplier_category
   ON dim_supplier.supplier_category_key = dim_supplier_category.supplier_category_key
